@@ -14,13 +14,17 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connected.');
 
-  socket.on('disconnect', () => {
-    console.log('Client was disconnected.');
+  socket.on('createMessage', message => {
+    message.createdAt = 123;
+    io.emit('newMessage', {
+      text: message.text,
+      from: message.form,
+      createdAt: new Date().getTime()
+    });
   });
 
-  socket.on('createMessage', message => {
-    message.createdAt=123;
-    socket.emit('newMessage', `new messsage ${JSON.stringify(message)}`);
+  socket.on('disconnect', () => {
+    console.log('Client was disconnected.');
   });
 
 });
