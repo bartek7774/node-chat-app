@@ -11,11 +11,18 @@ let io = socketIO(server);
 
 app.use(express.static(publicPath));
 
-io.on('connection',(socket)=>{
+io.on('connection', (socket) => {
   console.log('New user connected.');
-  socket.on('disconnect',()=>{
+
+  socket.on('disconnect', () => {
     console.log('Client was disconnected.');
   });
+
+  socket.on('createMessage', message => {
+    message.createdAt=123;
+    socket.emit('newMessage', `new messsage ${JSON.stringify(message)}`);
+  });
+
 });
 
 server.listen(PORT, () => {
