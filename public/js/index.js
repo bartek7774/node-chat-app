@@ -4,7 +4,7 @@ socket.on('connect', function () {
   console.log('connnect client');
 });
 
-socket.on('newMessage',function (message) {
+socket.on('newMessage', function (message) {
   console.log(message);
 });
 

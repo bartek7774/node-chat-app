@@ -21,6 +21,24 @@ io.on('connection', (socket) => {
       from: message.form,
       createdAt: new Date().getTime()
     });
+
+    //send to all users but me
+    // socket.broadcast.emit('newMessage',{
+    //   text:message.text,
+    //   from:message.form,
+    //   createdAt:new Date().getTime()
+    // });
+  });
+
+  socket.emit('newMessage', {
+    from: 'Admin',
+    message: 'Welcome to chat.',
+    createdAt:new Date().getTime()
+  });
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    message: 'New user joined.',
+    createdAt:new Date().getTime()
   });
 
   socket.on('disconnect', () => {
