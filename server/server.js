@@ -3,7 +3,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
 const publicPath = path.join(__dirname, '../public');
-const { generateMessage } = require('./utils/message');
+const { generateMessage, generateLocationMessage } = require('./utils/message');
 
 
 const PORT = process.env.PORT || 5000;
@@ -23,6 +23,11 @@ io.on('connection', (socket) => {
 
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to char.'));
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'));
+
+  socket.on('createLocationMessage', coords => {
+    console.log('no jest');
+    io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+  });
 
   socket.on('disconnect', () => {
     console.log('Client was disconnected.');
