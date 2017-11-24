@@ -18,15 +18,15 @@ io.on('connection', (socket) => {
 
   socket.on('createMessage', (message, callback) => {
     io.emit('newMessage', generateMessage(message.from, message.text));
-    callback('This is from the server.');
+    callback();
   });
 
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to char.'));
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'));
 
-  socket.on('createLocationMessage', coords => {
-    console.log('no jest');
+  socket.on('createLocationMessage', (coords, callback) => {
     io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+    callback();
   });
 
   socket.on('disconnect', () => {
