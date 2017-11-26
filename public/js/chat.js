@@ -69,7 +69,6 @@ $('#message-form').on('submit', function (event) {
   event.preventDefault();
   let message = $('[name=message]');
   socket.emit('createMessage', {
-    from: message.name,
     text: message.val()
   }, function () {
     message.val('');
@@ -87,14 +86,12 @@ sendLoc.on('click', function () {
   locationButton.attr({ disabled: true }).text('Sending location...');
   navigator.geolocation.getCurrentPosition(function (position) {
 
-    setTimeout(() => {
       socket.emit('createLocationMessage', {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }, function () {
         locationButton.removeAttr('disabled').text('Send location');
       });
-    }, 2000);
 
   }, function () {
     locationButtonF.removeAttr('disabled').text('Send location');
