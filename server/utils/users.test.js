@@ -68,4 +68,22 @@ describe('Users', () => {
     let resUsers = users.getListUsers('React Course');
     expect(resUsers).to.deep.equal(['Bob']);
   });
+
+  it('should return list of rooms and number of users in each.', () => {
+    let rooms = users.getListRooms();
+    users.removeUser('2');
+    expect(rooms.length).to.equal(2);
+  });
+  it('should return rooms only with users.', () => {
+    users.removeUser('2');
+    let rooms = users.getListRooms();
+    expect(rooms.length).to.equal(1);
+    expect(rooms[0].count).to.equal(2);
+  });
+  it('should return true if name is occupied in given room.', () => {
+    expect(users.checkOccupiedName(users.users[0].name,users.users[0].room)).to.be.true;
+  });
+  it('should return false if name is free in given room.', () => {
+    expect(users.checkOccupiedName(users.users[0].name+'s',users.users[0].room)).to.be.false;
+  });
 });

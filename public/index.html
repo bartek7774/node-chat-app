@@ -21,13 +21,27 @@
       </div>
       <div class="form-field">
         <label>Room name</label>
-        <input type="text" name="room"/>
+        <input type="text" name="room" />
+      </div>
+      <div class="form-field">
+        <label for="Available rooms"></label>
+        <select id="rooms"></select>
       </div>
       <div class="form-field">
         <button>Join</button>
       </div>
     </form>
   </div>
+  <script id="room-template" type="text/template">
+    <option value=""></option>
+    {{#rooms}}
+    <option value="{{name}}">{{name}} <span class="counter">({{count}})</span> </option>
+    {{/rooms}}
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/libs/jquery.min.js"></script>
+  <script src="/js/libs/mustache.js"></script>
+  <script src="/js/index.js"></script>
 </body>
 
 </html>

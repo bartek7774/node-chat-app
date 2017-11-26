@@ -16,12 +16,20 @@ let users = new Users();
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
-  console.log('New user connected.');
+
+  socket.emit('listRooms', users.getListRooms());
 
   socket.on('join', (params, callback) => {
     if (!isRealString(params.name) || !isRealString(params.room)) {
       return callback('Name and room are required.');
     }
+    params.room = params.room.toLowerCase();
+    params.name = params.name.toLowerCase();
+
+    if (users.checkOccupiedName(params.name, params.room)) {
+      return callback('Name in this room are occupied.');
+    }
+    console.log('New user connected.');
     socket.join(params.room);
     users.removeUser(socket.id);
     users.addUser(socket.id, params.name, params.room);

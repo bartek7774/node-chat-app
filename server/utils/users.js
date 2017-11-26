@@ -1,7 +1,12 @@
 
+const _ = require('lodash');
 class Users {
   constructor() {
     this.users = [];
+  }
+  checkOccupiedName(name, room) {
+    let user = this.users.find(x => x.name === name && x.room === room);
+    return !!user;
   }
   addUser(id, name, room) {
     let user = { id, name, room };
@@ -18,9 +23,9 @@ class Users {
     });
     return (idx > -1) ? this.users.splice(idx, 1) : null;
     */
-    let user=this.getUser(id);
-    if(user){
-      this.users=this.users.filter(user=>user.id!==id);
+    let user = this.getUser(id);
+    if (user) {
+      this.users = this.users.filter(user => user.id !== id);
     }
     return user;
   }
@@ -30,6 +35,14 @@ class Users {
   getListUsers(room) {
     let users = this.users.filter(user => user.room === room);
     return users.map(user => user.name);
+  }
+  getListRooms() {
+    let rooms = _.groupBy(this.users, 'room');
+    let rooms_obj = [];
+    Object.keys(rooms).forEach(key => {
+      rooms_obj.push({ name: key, count: rooms[key].length });
+    });
+    return rooms_obj.sort((x, y) => x.count > y.count ? -1 : (x.count < y.count ? 1 : 0));
   }
 
 }
